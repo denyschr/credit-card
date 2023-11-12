@@ -1,9 +1,10 @@
-@import url("https://fonts.googleapis.com/css?family=Poppins:regular,500&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Poppins:regular,500,600&display=swap");
 @import url('reset.css');
 
 body {
 	font-family: 'Poppins', sans-serif;
 	background-color: #343145;
+	color: #fff;
 }
 
 .test {
@@ -19,55 +20,123 @@ body {
 }
 
 .card {
-	position: relative;
-	z-index: 1;
 	width: 100%;
 	max-width: 380px;
+	min-height: 209px;
 	margin-bottom: -100px;
-	padding: 20px;
+	perspective: 1000px;
+}
+
+.card__inner {
+	position: relative;
+	transform-style: preserve-3d; 
+	height: 100%;
+	transition: transform 1s ease-in-out;
+}
+
+.card__inner.active {
+	transform: rotateY(-180deg);
+}
+
+.card__item {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	backface-visibility: hidden;
 	border-radius: 20px;
 	box-shadow: 0 0 6px 6px rgba(252, 70, 107, 0.5);
+}
+
+.card__front {
+	height: 100%;
+	padding: 20px;
 	background: linear-gradient(152deg, rgba(29, 42, 105, 1) 7%, rgba(252, 70, 107, 1) 100%);
 }
 
-.card__top {
+.front-card__top {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	gap: 15px;
-	margin-bottom: 25px;
+	margin-bottom: 40px;
 }
 
-.card__number {
-	margin-bottom: 30px;
+.front-card__number {
+	margin-bottom: 40px;
 	font-size: 20px;
-	color: #fff;
 	letter-spacing: 2px;
 	text-align: center;
 }
 
-.card__bottom {
+.front-card__bottom {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
 	gap: 20px;
 }
 
-.card__text {
+.front-card__text {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+	max-width: 260px;
+	overflow: hidden;
 }
 
-.card__caption {
+.front-card__caption {
 	font-size: 10px;
 	color: rgb(227, 227, 227);
 }
 
-.card__value {
+.front-card__value {
 	font-size: 14px;
-	color: #fff;
 	letter-spacing: 1px;
+	font-weight: 600;
+}
+
+.card__back {
+	transform: rotateY(180deg);
+	padding: 20px 0;
+	background: linear-gradient(-60deg, rgba(29, 42, 105, 1) 7%, rgba(252, 70, 107, 1) 100%);
+}
+
+.back-card__strip {
+	height: 40px;
+	margin-bottom: 15px;
+	background-color: #10172A;
+}
+
+.back-card__body {
+	padding: 0 20px;
+}
+
+.back-card__field {
+	margin-bottom: 20px;
+	text-align: right;
+}
+
+.back-card__label {
+	display: inline-block;
+	margin-bottom: 5px;
+	padding-right: 5px;
+	font-size: 12px;
+}
+
+.back-card__value {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	min-height: 40px;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: #fff;
+	font-size: 12px;
+	color: #000;
+}
+
+.back-card__payment-system {
+	text-align: right;
 }
 
 .form {
@@ -76,7 +145,7 @@ body {
 	gap: 20px;
 	width: 100%;
 	max-width: 500px;
-	padding: 150px 30px 30px;
+	padding: 135px 30px 30px;
 	border-radius: 10px;
 	background-color: #fff;
 }
@@ -84,20 +153,25 @@ body {
 .field-form {
 	display: flex;
 	flex-direction: column;
+	gap: 6px;
+}
+
+.field-form__block {
+	display: flex;
+	align-items: start;
+	gap: 6px;
+	min-height: 14px;
 }
 
 .field-form__caption {
-	align-self: flex-start;
-	margin-bottom: 5px;
+	min-height: 14px;
 	font-size: 12px;
 	font-weight: 500;
 	text-transform: capitalize;
 	color: rgb(71, 71, 71);
-	cursor: pointer;
 }
 
 .field-form__input {
-	margin-bottom: 8px;
 	padding: 12px;
 	border-radius: 5px;
 	border: 1px solid #343145;
@@ -112,23 +186,23 @@ body {
 	border-color: rgba(52, 49, 69, 0.6);
 }
 
-.field-form__input._incomplete {
+.field-form__input.has-error {
 	border-color: rgba(255, 0, 0, 0.6);
 }
 
-.field-form__input._incomplete:focus {
+.field-form__input.has-error:focus {
 	box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.6);
 }
 
-.field-form__input._complete {
+.field-form__input.is-correct {
 	border-color: rgba(0, 128, 0, 0.6);
 }
 
-.field-form__input._complete:focus {
+.field-form__input.is-correct:focus {
 	box-shadow: 0 0 0 2px rgba(0, 128, 0, 0.6);
 }
 
-.field-form__remark {
+.field-form__outcome {
 	position: relative;
 	display: none;
 	padding-left: 18px;
@@ -136,7 +210,7 @@ body {
 	color: #ff0000;
 }
 
-.field-form__remark::before {
+.field-form__outcome::before {
 	content: '';
 	position: absolute;
 	left: 0;
@@ -149,7 +223,7 @@ body {
 	background-position: center;	
 }
 
-.field-form__remark._incomplete {
+.field-form__outcome.has-error {
 	display: block;
 }
 
@@ -167,8 +241,6 @@ body {
 	padding: 15px;
 	border-radius: 6px;
 	background-color: #343145;
-	color: #fff;
-	font-family: inherit;
 	font-size: 18px;
 	cursor: pointer;
 	transition: background .3s ease-in-out;
@@ -176,4 +248,57 @@ body {
 
 .form__button:hover {
 	background-color: #343145d2;
+}
+
+.form__payment-outcome {
+	display: none;
+	text-align: center;
+	padding: 10px;
+	background-color: #D1FFD2;
+	color: #74B771;
+}
+
+.tooltip {
+	position: relative;
+	width: 14px;
+	height: 14px;
+	background-image: url('../img/question-mark.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+}
+
+.tooltip:hover .tooltip__text {
+	opacity: 1;
+	visibility: visible;
+}
+
+.tooltip__text {
+	position: absolute;
+	bottom: 150%;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 1;
+	opacity: 0;
+	visibility: hidden;
+	min-width: 150px;
+  padding: 5px;
+  border-radius: 6px;
+  background-color: #e4e1e1;
+  text-align: center;
+	color: #000;
+	font-size: 12px;
+	line-height: 1.5;
+	transition: opacity .2s ease-in-out, visibility .2s ease-in-out;
+}
+
+.tooltip__text::after {
+	content: "";
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-width: 5px;
+	border-style: solid;
+	border-color: #e4e1e1 transparent transparent transparent;
 }

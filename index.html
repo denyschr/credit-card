@@ -11,55 +11,85 @@
 <body>
 	<div class="wrapper">
 		<div class="card">
-			<div class="card__top">
-				<div class="card__chip">
-					<img src="img/chip.png" width="40" height="40" alt="Chip">
+			<div class="card__inner">
+				<div class="card__item card__front front-card">
+					<div class="front-card__top">
+						<div class="front-card__chip">
+							<img src="img/chip.png" width="40" height="40" alt="Chip">
+						</div>
+						<div class="front-card__payment-system">
+							<img src="img/mastercard.png" width="50" alt="Mastercard">
+						</div>
+					</div>
+					<div id="card-number-text" class="front-card__number">●●●● ●●●● ●●●● ●●●●</div>
+					<div class="front-card__bottom">
+						<div class="front-card__text">
+							<span class="front-card__caption">Card Holder</span>
+							<span id="card-holder-text" class="front-card__value">FULL NAME</span>
+						</div>
+						<div class="front-card__text">
+							<span class="front-card__caption">Expires</span>
+							<span id="card-validity-text" class="front-card__value">MM/YY</span>
+						</div>
+					</div>
 				</div>
-				<div class="card__payment-system">
-					<img src="img/mastercard.png" width="50" alt="Mastercard">
-				</div>
-			</div>
-			<div id="card-number-text" class="card__number">**** **** **** ****</div>
-			<div class="card__bottom">
-				<div class="card__text">
-					<span class="card__caption">Card Holder</span>
-					<span id="card-holder-text" class="card__value">FULL NAME</span>
-				</div>
-				<div class="card__text">
-					<span class="card__caption">Expires</span>
-					<span id="card-expiration-text" class="card__value">MM/YY</span>
+				<div class="card__item card__back back-card">
+					<div class="back-card__strip"></div>
+					<div class="back-card__body">
+						<div class="back-card__field">
+							<span class="back-card__label">CVV</span>
+							<div id="card-cvv-text" class="back-card__value"></div>
+						</div>
+						<div class="back-card__payment-system">
+							<img src="img/mastercard.png" width="50" alt="Mastercard">
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		<form action="#" id="credit-card" class="form">
+			<span class="form__payment-outcome">Your payment was successful!</span>
 			<label for="card-number" class="form__field field-form">
 				<span class="field-form__caption">Card Number</span>
 				<input id="card-number" type="text" name="card-number" class="field-form__input"
-					placeholder="1234 5678 9012 0000" maxlength="19" required
+					placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required oninput="moveToNextField(this, 'card-holder')"
 					onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-				<span class="field-form__remark">Your card number is incomplete</span>
+				<span class="field-form__outcome">Wrong card</span>
 			</label>
 			<label for="card-holder" class="form__field field-form">
 				<span class="field-form__caption">Card Holder</span>
-				<input id="card-holder" type="text" name="card-holder" class="field-form__input" placeholder="JASON BROWN"
-					maxlength="26" required
+				<input id="card-holder" type="text" name="card-holder" class="field-form__input" placeholder="Cardholder name"
+					maxlength="50" required
 					onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.key == ' '">
-				<span class="field-form__remark">Your card holder is incomplete</span>
+				<span class="field-form__outcome">Enter your full name</span>
 			</label>
 			<div class="form__block">
-				<label for="card-expiration" class="form__field field-form">
-					<span class="field-form__caption">Expiration Date</span>
-					<input id="card-expiration" type="text" name="card-expiration" class="field-form__input" placeholder="07/25"
-						maxlength="5" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-					<span class="field-form__remark">Your card expiration date is incomplete</span>
-				</label>
-				<label for="card-ccv" class="form__field field-form">
-					<span class="field-form__caption">CVV</span>
-					<input id="card-ccv" type="text" name="card-ccv" class="field-form__input" maxlength="3" required
+				<label for="card-validity" class="form__field field-form">
+					<span class="field-form__caption">Validity</span>
+					<input id="card-validity" type="text" name="card-validity" class="field-form__input" placeholder="MM/YY"
+						maxlength="5" required oninput="moveToNextField(this, 'card-cvv')"
 						onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-					<span class="field-form__remark">Your CVV is incomplete</span>
+					<span class="field-form__outcome">Validating invalid</span>
+				</label>
+				<label for="card-cvv" class="form__field field-form">
+					<div class="field-form__block">
+						<span class="field-form__caption">CVV</span>
+						<div class="tooltip">
+							<span class="tooltip__text">3-digit code on the back of the card</span>
+						</div>
+					</div>
+					<input id="card-cvv" type="text" name="card-cvv" class="field-form__input" placeholder="XXX" maxlength="3"
+						required oninput="moveToNextField(this, 'card-email')"
+						onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+					<span class="field-form__outcome">Incorrect CVV</span>
 				</label>
 			</div>
+			<label for="card-email" class="form__field field-form">
+				<span class="field-form__caption">Email</span>
+				<input id="card-email" type="text" name="card-email" class="field-form__input" placeholder="example@gmail.com"
+					required>
+				<span class="field-form__outcome">Incorrect email</span>
+			</label>
 			<button type="submit" class="form__button">Pay</button>
 		</form>
 	</div>
