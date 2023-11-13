@@ -21,7 +21,7 @@
 							<img src="img/mastercard.png" width="50" alt="Mastercard">
 						</div>
 					</div>
-					<div id="card-number-text" class="front-card__number">●●●● ●●●● ●●●● ●●●●</div>
+					<div id="card-number-text" class="front-card__number">XXXX XXXX XXXX XXXX</div>
 					<div class="front-card__bottom">
 						<div class="front-card__text">
 							<span class="front-card__caption">Card Holder</span>
@@ -48,28 +48,29 @@
 			</div>
 		</div>
 		<form action="#" id="credit-card" class="form">
-			<span class="form__payment-outcome">Your payment was successful!</span>
 			<label for="card-number" class="form__field field-form">
 				<span class="field-form__caption">Card Number</span>
 				<input id="card-number" type="text" name="card-number" class="field-form__input"
-					placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required oninput="moveToNextField(this, 'card-holder')"
+					placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required oninput="moveToNextField(this, 'card-holder');"
+					onfocus="this.placeholder = ''" onblur="this.placeholder = 'XXXX XXXX XXXX XXXX'"
 					onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-				<span class="field-form__outcome">Wrong card</span>
+				<span class="field-form__outcome"></span>
 			</label>
 			<label for="card-holder" class="form__field field-form">
 				<span class="field-form__caption">Card Holder</span>
 				<input id="card-holder" type="text" name="card-holder" class="field-form__input" placeholder="Cardholder name"
-					maxlength="50" required
+					maxlength="50" required onfocus="this.placeholder = ''" onblur="this.placeholder = 'Owner name'"
 					onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.key == ' '">
-				<span class="field-form__outcome">Enter your full name</span>
+				<span class="field-form__outcome"></span>
 			</label>
 			<div class="form__block">
 				<label for="card-validity" class="form__field field-form">
 					<span class="field-form__caption">Validity</span>
 					<input id="card-validity" type="text" name="card-validity" class="field-form__input" placeholder="MM/YY"
-						maxlength="5" required oninput="moveToNextField(this, 'card-cvv')"
+						maxlength="5" required onfocus="this.placeholder = ''" onblur="this.placeholder = 'MM/YY'"
+						oninput="moveToNextField(this, 'card-cvv')"
 						onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-					<span class="field-form__outcome">Validating invalid</span>
+					<span class="field-form__outcome"></span>
 				</label>
 				<label for="card-cvv" class="form__field field-form">
 					<div class="field-form__block">
@@ -79,18 +80,19 @@
 						</div>
 					</div>
 					<input id="card-cvv" type="text" name="card-cvv" class="field-form__input" placeholder="XXX" maxlength="3"
-						required oninput="moveToNextField(this, 'card-email')"
+						required onfocus="this.placeholder = ''" onblur="this.placeholder = 'XXX'"
+						oninput="moveToNextField(this, 'card-email')"
 						onkeypress="return event.charCode >= 48 && event.charCode <= 57">
-					<span class="field-form__outcome">Incorrect CVV</span>
+					<span class="field-form__outcome"></span>
 				</label>
 			</div>
 			<label for="card-email" class="form__field field-form">
 				<span class="field-form__caption">Email</span>
 				<input id="card-email" type="text" name="card-email" class="field-form__input" placeholder="example@gmail.com"
-					required>
-				<span class="field-form__outcome">Incorrect email</span>
+					required onfocus="this.placeholder = ''" onblur="this.placeholder = 'example@gmail.com'">
+				<span class="field-form__outcome"></span>
 			</label>
-			<button type="submit" class="form__button">Pay</button>
+			<button type="submit" id="card-button" class="form__button disabled">Pay</button>
 		</form>
 	</div>
 	<script src="script.js"></script>

@@ -1,30 +1,27 @@
-// const form = document.querySelector('#credit-card');
+const form = document.querySelector('#credit-card');
+
+const cardNumber = form.querySelector('#card-number');
+const cardHolder = form.querySelector('#card-holder');
+const cardValidity = form.querySelector('#card-validity');
+const cardCvv = form.querySelector('#card-cvv');
+const cardEmail = form.querySelector('#card-email');
+const cardButton = document.querySelector('#card-button');
 
 const cardInner = document.querySelector('.card__inner');
-
-const cardNumber = document.querySelector('#card-number');
-const cardHolder = document.querySelector('#card-holder');
-const cardValidity = document.querySelector('#card-validity');
-const cardCvv = document.querySelector('#card-cvv');
-const cardEmail = document.querySelector('#card-email');
 
 const cardNumberText = document.querySelector('#card-number-text');
 const cardHolderText = document.querySelector('#card-holder-text');
 const cardValidityText = document.querySelector('#card-validity-text');
 const cardCvvText = document.querySelector('#card-cvv-text');
 
-const cardNumberLength = 19;
-const cardValidityLength = 5;
-const cardCvvLength = 3;
+const cardNumberValidLength = 19;
+const cardHolderValidLength = 1;
+const cardValidityValidLength = 5;
+const cardCvvValidLength = 3;
 
 cardNumber.addEventListener('input', e => {
-	const msg = e.target.nextElementSibling;
-	const isCorrectLength = e.target.value.length === cardNumberLength;
-
-	validateField(msg, e.target, isCorrectLength);
-
 	if (!e.target.value) {
-		cardNumberText.innerHTML = '●●●● ●●●● ●●●● ●●●●';
+		cardNumberText.innerHTML = 'XXXX XXXX XXXX XXXX';
 	} else {
 		const valueOfInput = e.target.value.replaceAll(" ", "");
 		if (e.target.value.length > 14) {
@@ -40,27 +37,41 @@ cardNumber.addEventListener('input', e => {
 			cardNumberText.innerHTML = valueOfInput;
 		}
 	}
+	validateForm();
+});
+
+cardNumber.addEventListener('keyup', e => {
+	keyPress(e.key, 'card-holder');
+});
+
+cardNumber.addEventListener('blur', e => {
+	const isEmpty = 'Enter card';
+	const isIncorrect = 'Wrong card';
+	const lengthOfValue = e.target.value.length;
+	validateField(cardNumber, isEmpty, isIncorrect, lengthOfValue, cardNumberValidLength);
 });
 
 cardHolder.addEventListener('input', e => {
-	const msg = e.target.nextElementSibling;
-	const isCorrectLength = e.target.value.length > 0;
-
-	validateField(msg, e.target, isCorrectLength);
-
 	if (!e.target.value) {
 		cardHolderText.innerHTML = 'FULL NAME';
 	} else {
 		cardHolderText.innerHTML = e.target.value.toUpperCase();
 	}
+	validateForm();
+});
+
+cardHolder.addEventListener('keyup', e => {
+	keyPress(e.key, 'card-validity');
+});
+
+cardHolder.addEventListener('blur', e => {
+	const isEmpty = 'Enter First name and Second name';
+	const isIncorrect = null;
+	const lengthOfValue = e.target.value.length;
+	validateField(cardHolder, isEmpty, isIncorrect, lengthOfValue, cardHolderValidLength);
 });
 
 cardValidity.addEventListener('input', e => {
-	const msg = e.target.nextElementSibling;
-	const isCorrectLength = e.target.value.length === cardValidityLength;
-
-	validateField(msg, e.target, isCorrectLength);
-
 	if (!e.target.value) {
 		cardValidityText.innerHTML = 'MM/YY';
 	} else {
@@ -72,45 +83,114 @@ cardValidity.addEventListener('input', e => {
 			cardValidityText.innerHTML = valueOfInput;
 		}
 	}
+	validateForm();
+});
+
+cardValidity.addEventListener('keyup', e => {
+	keyPress(e.key, 'card-cvv');
+});
+
+cardValidity.addEventListener('blur', e => {
+	const isEmpty = 'Enter validity';
+	const isIncorrect = 'Invalid validity';
+	const lengthOfValue = e.target.value.length;
+	validateField(cardValidity, isEmpty, isIncorrect, lengthOfValue, cardValidityValidLength);
 });
 
 cardCvv.addEventListener('input', e => {
-	const msg = e.target.nextElementSibling;
-	const isCorrectLength = e.target.value.length === cardCvvLength;
-
-	validateField(msg, e.target, isCorrectLength);
-
 	e.target.value = e.target.value.replaceAll(/\d/g, '*');
 	cardCvvText.innerHTML = e.target.value;
+	validateForm();
 });
 
-cardCvv.addEventListener('click', () => {
+cardCvv.addEventListener('keyup', e => {
+	keyPress(e.key, 'card-email');
+});
+
+cardCvv.addEventListener('blur', e => {
+	const isEmpty = 'Enter CVV';
+	const isIncorrect = 'Incorrect CVV';
+	const lengthOfValue = e.target.value.length;
+	validateField(cardCvv, isEmpty, isIncorrect, lengthOfValue, cardCvvValidLength);
+});
+
+cardCvv.addEventListener('focus', () => {
 	cardInner.classList.add('active');
 });
 
-document.addEventListener('click', e => {
-	if (e.target != cardCvv) {
-		cardInner.classList.remove('active');
+cardCvv.addEventListener('focusout', () => {
+	cardInner.classList.remove('active');
+});
+
+cardEmail.addEventListener('input', () => {
+	validateForm();
+});
+
+cardEmail.addEventListener('blur', e => {
+	const isEmpty = 'Enter your email';
+	const isIncorrect = 'Incorrect email';
+	const outcome = cardEmail.nextElementSibling;
+	if (e.target.value.slice(-10) != '@gmail.com' && e.target.value.length != 0) {
+		outcome.textContent = isIncorrect;
+		cardEmail.classList.add('has-error');
+		cardEmail.classList.remove('is-correct');
+		outcome.classList.add('has-error');
+	} else if (e.target.value.length == 0) {
+		outcome.textContent = isEmpty;
+		cardEmail.classList.add('has-error');
+		cardEmail.classList.remove('is-correct');
+		outcome.classList.add('has-error');
+	} else {
+		cardEmail.classList.remove('has-error');
+		cardEmail.classList.add('is-correct');
+		outcome.classList.remove('has-error');
 	}
 });
 
-cardEmail.addEventListener('input', e => {
-	const msg = e.target.nextElementSibling;
-	const isCorrectLength = e.target.value.slice(-10) === '@gmail.com';
+function validateField(field, empty, incorrect, length, validLength) {
+	const outcome = field.nextElementSibling;
+	if (length < validLength && length != 0) {
+		outcome.textContent = incorrect;
+		field.classList.add('has-error');
+		field.classList.remove('is-correct');
+		outcome.classList.add('has-error');
+	} else if (length == 0) {
+		outcome.textContent = empty;
+		field.classList.add('has-error');
+		field.classList.remove('is-correct');
+		outcome.classList.add('has-error');
+	} else {
+		field.classList.remove('has-error');
+		field.classList.add('is-correct');
+		outcome.classList.remove('has-error');
+	}
+}
 
-	validateField(msg, e.target, isCorrectLength);
-});
+function validateForm() {
+	const isCardNumberValid = cardNumber.value.length === cardNumberValidLength;
+	const isCardHolderValid = cardHolder.value.length >= cardHolderValidLength;
+	const isCardValidityValid = cardValidity.value.length === cardValidityValidLength;
+	const isCardCvvValid = cardCvv.value.length === cardCvvValidLength;
+	const isCardEmailValid = cardEmail.value.slice(-10) === '@gmail.com';
 
-function validateField(msg, currentField, length) {
-	msg.classList.toggle('has-error', !length);
-	currentField.classList.toggle('has-error', !length);
-	currentField.classList.toggle('is-correct', length);
+	if (isCardNumberValid && isCardHolderValid && isCardValidityValid && isCardCvvValid && isCardEmailValid) {
+		cardButton.classList.remove('disabled');
+	} else {
+		cardButton.classList.add('disabled');
+	}
+}
+
+function keyPress(key, nextFieldId) {
+	if (key == 'Enter') {
+		document.getElementById(nextFieldId).focus();
+	}
 }
 
 function moveToNextField(currentField, nextFieldId) {
 	const maxLength = currentField.maxLength;
-
 	if (currentField.value.length === maxLength) {
-		document.getElementById(nextFieldId).focus();
+		setTimeout(() => {
+			document.getElementById(nextFieldId).focus();
+		}, 300);
 	}
 }
