@@ -130,7 +130,8 @@ cardEmail.addEventListener('blur', e => {
 	const isEmpty = 'Enter your email';
 	const isIncorrect = 'Incorrect email';
 	const outcome = cardEmail.nextElementSibling;
-	if (e.target.value.slice(-10) != '@gmail.com' && e.target.value.length != 0) {
+	const reg = /[a-z]{1,255}@[a-z]{1,15}\.[a-z]{2,4}/;
+	if (!reg.test(e.target.value) && e.target.value.length != 0) {
 		outcome.textContent = isIncorrect;
 		cardEmail.classList.add('has-error');
 		cardEmail.classList.remove('is-correct');
