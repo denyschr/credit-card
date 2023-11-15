@@ -1,4 +1,4 @@
-# Credit card
+# (Credit card)[denyschr.github.io/credit-card/]
 
 ## General view
 <img src="demonstration/general-view.png">
