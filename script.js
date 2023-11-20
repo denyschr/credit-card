@@ -65,7 +65,7 @@ cardHolder.addEventListener('keyup', e => {
 });
 
 cardHolder.addEventListener('blur', e => {
-	const isEmpty = 'Enter First name and Second name';
+	const isEmpty = 'Enter your First name and Second name';
 	const isIncorrect = null;
 	const lengthOfValue = e.target.value.length;
 	validateField(cardHolder, isEmpty, isIncorrect, lengthOfValue, cardHolderValidLength);

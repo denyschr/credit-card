@@ -8,10 +8,6 @@ body {
 	color: #fff;
 }
 
-.test {
-	display: none;
-}
-
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -23,7 +19,7 @@ body {
 .card {
 	width: 100%;
 	max-width: 380px;
-	min-height: 209px;
+	min-height: 220px;
 	margin-bottom: -100px;
 	perspective: 1000px;
 	font-family: 'Share Tech Mono';
@@ -66,33 +62,25 @@ body {
 .front-card__number {
 	margin-bottom: 40px;
 	font-size: 20px;
-	letter-spacing: 2px;
+	letter-spacing: 4px;
 	text-align: center;
 }
 
 .front-card__bottom {
 	display: flex;
 	justify-content: space-between;
-	align-items: flex-end;
 	gap: 20px;
 }
 
-.front-card__text {
-	display: flex;
-	flex-direction: column;
-	gap: 5px;
-	max-width: 260px;
-	overflow: hidden;
-}
-
-.front-card__caption {
+.front-card__label {
+	margin-bottom: 5px;
 	font-size: 10px;
 	color: rgb(227, 227, 227);
 }
 
 .front-card__value {
 	font-size: 14px;
-	letter-spacing: 1px;
+	letter-spacing: 2px;
 }
 
 .card__back {
@@ -117,7 +105,6 @@ body {
 }
 
 .back-card__label {
-	display: inline-block;
 	margin-bottom: 5px;
 	padding-right: 5px;
 	font-size: 12px;
@@ -163,7 +150,7 @@ body {
 	min-height: 14px;
 }
 
-.field-form__caption {
+.field-form__label {
 	min-height: 14px;
 	font-size: 12px;
 	font-weight: 500;
@@ -175,7 +162,6 @@ body {
 	padding: 12px;
 	border-radius: 5px;
 	border: 1px solid #343145;
-	font-family: inherit;
 	outline: none;
 	cursor: pointer;
 	transition: border .3s ease-in-out, box-shadow .3s ease-in-out;
@@ -185,6 +171,14 @@ body {
 	cursor: text;
 	box-shadow: 0 0 0 2px rgba(52, 49, 69, 0.6);
 	border-color: rgba(52, 49, 69, 0.6);
+}
+
+.field-form__input::placeholder {
+	transition: opacity .3s ease-in-out;
+}
+
+.field-form__input:focus::placeholder {
+	opacity: 0;
 }
 
 .field-form__input.has-error {
@@ -225,7 +219,7 @@ body {
 }
 
 .field-form__outcome.has-error {
-	display: block;
+	display: inline-block;
 }
 
 .form__block {
